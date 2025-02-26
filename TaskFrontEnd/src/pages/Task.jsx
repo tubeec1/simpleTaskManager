@@ -31,23 +31,27 @@ function Task() {
   };
 
   let saveTask = async () => {
-    let data = { name: taskName, description: taskDescription };
-    try {
-      let res = await fetch("http://localhost:4000/task", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      let resData = await res.json();
-      alert(resData.message);
+    if (taskName === "" || taskDescription === "") {
+      alert("enter all fields");
+    } else {
+      let data = { name: taskName, description: taskDescription };
+      try {
+        let res = await fetch("http://localhost:4000/task", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        let resData = await res.json();
+        alert(resData.message);
 
-      fetchData();
-      setTaskName("");
-      setTaskDescription("");
-    } catch (er) {
-      console.log(er);
+        fetchData();
+        setTaskName("");
+        setTaskDescription("");
+      } catch (er) {
+        console.log(er);
+      }
     }
   };
 
