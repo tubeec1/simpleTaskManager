@@ -1,4 +1,5 @@
 let Task = require("../models/task");
+let mongoose = require("mongoose");
 
 let getAllTasks = async (req, res) => {
   try {
@@ -6,6 +7,25 @@ let getAllTasks = async (req, res) => {
     res.status(200).json(tasks);
   } catch (e) {
     res.status(500).json({ message: e });
+  }
+};
+
+let getTaskByNameOrId = async (req, res) => {
+  try {
+    let identifier = req.params.identifier;
+    let idData = {};
+    let nameData = {};
+    if (mongoose.Types.ObjectId.isValid(identifier)) {
+      idData = { _id: identifier };
+    } else {
+      nameData = { name: identifier };
+    }
+    let tasks = await Task.find({
+      $or: [idData, nameData],
+    });
+    res.status(200).json(tasks);
+  } catch (er) {
+    res.json(er);
   }
 };
 
@@ -53,4 +73,5 @@ module.exports = {
   createTask,
   updateTaskById,
   deleteTaskById,
+  getTaskByNameOrId,
 };

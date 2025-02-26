@@ -161,7 +161,9 @@ function App() {
                 <tr className="border" key={task._id}>
                   <td className="border">{task.name}</td>
                   <td className="border">{task.description}</td>
-                  <td className="border">{task.createdAt}</td>
+                  <td className="border">
+                    {new Date(task.createdAt).toDateString()}
+                  </td>
                   <td
                     className="border"
                     onClick={() => {
